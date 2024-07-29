@@ -3,6 +3,8 @@ import 'package:meals/widgets/main_drawer.dart';
 import 'package:meals/screens/tabs.dart';
 
 class FiltersScreen extends StatefulWidget {
+  const FiltersScreen({super.key, required this.currentFilter});
+  final Map<Filter, bool> currentFilter;
   @override
   State<FiltersScreen> createState() {
     return _FiltersScreenState();
@@ -23,6 +25,17 @@ class _FiltersScreenState extends State<FiltersScreen> {
   var _Vegan = false;
 
   @override
+  void initState() {
+
+    super.initState();
+  
+   _gluttenfreeFilterset =widget.currentFilter[Filter.glutenfree]!;
+ _lactosefreeFilterset =widget.currentFilter[Filter.lactosefree]!;
+ _vegeterian =widget.currentFilter[Filter.vegeterian]!;
+ _Vegan =widget.currentFilter[Filter.vegan]!;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -35,16 +48,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //         .push(MaterialPageRoute(builder: (ctx) => const TapScreen()));
       //   }
       // }),
-      body: PopScope ( 
-        canPop: false,
-        onPopInvoked: (bool didPop)async{
+      body: WillPopScope(
+        onWillPop: () async {
           Navigator.of(context).pop({
             Filter.glutenfree: _gluttenfreeFilterset,
             Filter.lactosefree: _lactosefreeFilterset,
             Filter.vegeterian: _vegeterian,
             Filter.vegan: _Vegan,
           });
-         
+          return false;
         },
         child: Column(
           children: [

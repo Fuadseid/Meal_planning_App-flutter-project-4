@@ -4,19 +4,23 @@ import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/catagories_grid_item.dart';
 import 'package:meals/models/catagory.dart';
 import 'package:meals/models/meal.dart';
+
 class CatagoriesScreen extends StatelessWidget {
-   CatagoriesScreen({super.key , required this.onToggleFavorite});
+  CatagoriesScreen({super.key, required this.onToggleFavorite,required this.availabelMeals});
   void Function(Meal meal) onToggleFavorite;
+  final List<Meal> availabelMeals;
 
   void _selectedcatgory(BuildContext context, Category catagory) {
-    final filteredcatagory = dummyMeals
+    final filteredcatagory = availabelMeals
         .where((meal) => meal.categories.contains(catagory.id))
         .toList();
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                MealsScreen(onToggleFavorite: onToggleFavorite,title: catagory.title, meals: filteredcatagory)));
+            builder: (context) => MealsScreen(
+                onToggleFavorite: onToggleFavorite,
+                title: catagory.title,
+                meals: filteredcatagory)));
   }
 
   @override
