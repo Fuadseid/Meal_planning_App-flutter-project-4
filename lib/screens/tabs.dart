@@ -34,33 +34,15 @@ class _TabScreenState extends ConsumerState<TapScreen> {
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == 'filtered') {
- 
-          await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
-        builder: (ctx) =>  FiltersScreen(),
+      await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
+        builder: (ctx) => FiltersScreen(),
       ));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(meal_provider);
-      final activefilter =  ref.watch(filteredProvider);
-    final availablemeal = meals.where((meal) {
-  
-      if (activefilter[Filter.glutenfree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (activefilter[Filter.lactosefree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      if (activefilter[Filter.vegeterian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (activefilter[Filter.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final availablemeal = ref.watch(filteredMealprovider);
     Widget activepage = CatagoriesScreen(
       availabelMeals: availablemeal,
     );
